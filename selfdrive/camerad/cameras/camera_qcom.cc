@@ -2,8 +2,6 @@
 
 #include <fcntl.h>
 #include <poll.h>
-#include <pthread.h>
-#include <stdbool.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
@@ -29,7 +27,7 @@
 
 // leeco actuator (DW9800W H-Bridge Driver IC)
 // from sniff
-const uint16_t INFINITY_DAC = 364;
+//const uint16_t INFINITY_DAC = 364;
 
 extern ExitHandler do_exit;
 
@@ -50,7 +48,7 @@ CameraInfo cameras_supported[CAMERA_ID_MAX] = {
     .frame_height = 1748,
     .frame_stride = 2912,
     .bayer = true,
-    .bayer_flip = 3,
+    .bayer_flip = 0,
     .hdr = true
   },
   [CAMERA_ID_IMX179] = {
@@ -991,7 +989,7 @@ static void camera_open(CameraState *s, bool is_road_cam) {
           .park_lens = {.damping_step = 1023, .damping_delay = 14000, .hw_params = 11, .max_step = 20},
         },
         .af_tuning_params = {
-          .initial_code = INFINITY_DAC,
+          .initial_code = (int16_t)s->infinity_dac,
           .pwd_step = 0,
           .region_size = 1,
           .total_steps = 238,
@@ -1174,7 +1172,7 @@ static void road_camera_start(CameraState *s) {
     actuator_ringing_params.hw_params = 13;
 
     // focus on infinity assuming phone is perpendicular
-    int inf_step = 512 - INFINITY_DAC;
+    inf_step = 512 - s->infinity_dac;
 
     // initial guess
     s->lens_true_pos = 400;
@@ -1186,7 +1184,7 @@ static void road_camera_start(CameraState *s) {
   actuator_cfg_data.cfg.setpos = (struct msm_actuator_set_position_t){
     .number_of_steps = 1,
     .hw_params = (uint32_t)((s->device != DEVICE_LP3) ? 0x0000e424 : 7),
-    .pos = {INFINITY_DAC, 0},
+    .pos = {s->infinity_dac, 0},
     .delay = {0,}
   };
   cam_ioctl(s->actuator_fd, VIDIOC_MSM_ACTUATOR_CFG, &actuator_cfg_data, "actuator set pos");

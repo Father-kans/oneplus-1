@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import os
-import signal
 import subprocess
 import time
 
@@ -9,7 +8,6 @@ from PIL import Image
 from typing import List
 
 import cereal.messaging as messaging
-from common.basedir import BASEDIR
 from common.params import Params
 from common.realtime import DT_MDL
 from common.transformations.camera import eon_f_frame_size, eon_d_frame_size, leon_d_frame_size, tici_f_frame_size

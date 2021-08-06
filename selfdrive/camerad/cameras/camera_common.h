@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdbool.h>
 #include <cstdint>
 #include <cstdlib>
 #include <memory>
@@ -29,6 +28,7 @@
 #define CAMERA_ID_MAX 10
 
 #define UI_BUF_COUNT 4
+#define YUV_COUNT 40
 #define LOG_CAMERA_ID_FCAMERA 0
 #define LOG_CAMERA_ID_DCAMERA 1
 #define LOG_CAMERA_ID_ECAMERA 2

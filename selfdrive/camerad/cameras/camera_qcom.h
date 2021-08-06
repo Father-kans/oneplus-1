@@ -1,7 +1,4 @@
 #pragma once
-
-#include <pthread.h>
-#include <stdbool.h>
 #include <atomic>
 #include <cstdint>
 #include <memory>

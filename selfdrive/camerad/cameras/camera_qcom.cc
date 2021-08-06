@@ -50,7 +50,7 @@ CameraInfo cameras_supported[CAMERA_ID_MAX] = {
     .frame_height = 1748,
     .frame_stride = 2912,
     .bayer = true,
-    .bayer_flip = 0,
+    .bayer_flip = 3,
     .hdr = true
   },
   [CAMERA_ID_IMX179] = {

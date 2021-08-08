@@ -52,7 +52,7 @@ class CarState(CarStateBase):
     ret.wheelSpeeds.fr = pt_cp.vl["EBCMWheelSpdFront"]["FRWheelSpd"] * CV.KPH_TO_MS
     ret.wheelSpeeds.rl = pt_cp.vl["EBCMWheelSpdRear"]["RLWheelSpd"] * CV.KPH_TO_MS
     ret.wheelSpeeds.rr = pt_cp.vl["EBCMWheelSpdRear"]["RRWheelSpd"] * CV.KPH_TO_MS
-    ret.vEgoRaw = mean([ret.wheelSpeeds.fl, ret.wheelSpeeds.fr, ret.wheelSpeeds.rl, ret.wheelSpeeds.rr])*(105./100.)
+    ret.vEgoRaw = mean([ret.wheelSpeeds.fl, ret.wheelSpeeds.fr, ret.wheelSpeeds.rl, ret.wheelSpeeds.rr])*(107./100.)
 #    ret.vEgoRaw = pt_cp.vl["ECMVehicleSpeed"]["VehicleSpeed"] * CV.MPH_TO_MS # * (80./78.)
     ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
     ret.standstill = ret.vEgoRaw < 0.01
@@ -75,7 +75,6 @@ class CarState(CarStateBase):
 
 
     ret.steeringTorque = pt_cp.vl["PSCMStatus"]["LKADriverAppldTrq"]
-    ret.steeringTorqueEps = pt_cp.vl["PSCMStatus"]["LKATorqueDelivered"]
     ret.steeringPressed = abs(ret.steeringTorque) > STEER_THRESHOLD
 
     # 1 - open, 0 - closed
@@ -110,9 +109,9 @@ class CarState(CarStateBase):
 
     # 0 - inactive, 1 - active, 2 - temporary limited, 3 - failed
     self.lkas_status = pt_cp.vl["PSCMStatus"]["LKATorqueDeliveredStatus"]
-    ret.steerWarning = self.lkas_status == 2
-    ret.steerError = self.lkas_status == 3
+    ret.steerWarning = self.lkas_status not in [0, 1]
 
+    ret.steeringTorqueEps = pt_cp.vl["PSCMStatus"]["LKATorqueDelivered"]
     self.engineRPM = pt_cp.vl["ECMEngineStatus"]["EngineRPM"]
 
 # bellow line for Brake Light

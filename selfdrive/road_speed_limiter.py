@@ -205,7 +205,7 @@ class RoadSpeedLimiter:
     self.slowing_down = False
     self.start_dist = 0
 
-    self.longcontrol = True #Params().get_bool('LongControlEnabled')
+    self.longcontrol = True
     self.sock = messaging.sub_sock("roadLimitSpeed")
     self.roadLimitSpeed = None
 

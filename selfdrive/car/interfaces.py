@@ -27,8 +27,6 @@ class CarInterfaceBase():
     self.VM = VehicleModel(CP)
 
     self.frame = 0
-    self.steer_warning = 0
-    self.steering_unpressed = 0
     self.low_speed_alert = False
 
     if CarState is not None:
@@ -129,19 +127,10 @@ class CarInterfaceBase():
     if cs_out.cruiseState.nonAdaptive:
       events.add(EventName.wrongCruiseMode)
 
-    self.steer_warning = self.steer_warning + 1 if cs_out.steerWarning else 0
-    self.steering_unpressed = 0 if cs_out.steeringPressed else self.steering_unpressed + 1
-
-    # Handle permanent and temporary steering faults
-    if cs_out.steerError:
-      events.add(EventName.steerUnavailable)
-    elif cs_out.steerWarning:
-      # only escalate to the harsher alert after the condition has
-      # persisted for 0.5s and we're certain that the user isn't overriding
-      if self.steering_unpressed > int(0.5/DT_CTRL) and self.steer_warning > int(0.5/DT_CTRL):
-        events.add(EventName.steerTempUnavailable)
-      else:
-        events.add(EventName.steerTempUnavailableSilent)
+#    if cs_out.steerError:
+#      events.add(EventName.steerUnavailable)
+#    elif cs_out.steerWarning:
+#      events.add(EventName.steerTempUnavailable)
 
     # Disable on rising edge of gas or brake. Also disable on brake when speed > 0.
     # Optionally allow to press gas at zero speed to resume.

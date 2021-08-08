@@ -34,17 +34,15 @@ if [ ! -f "/data/openpilot/installer/boot_finish" ]; then
   sed -i -e 's/\r$//' /data/openpilot/panda/board/boards/*.h
   sed -i -e 's/\r$//' /data/openpilot/panda/board/drivers/*.h
   sed -i -e 's/\r$//' /data/openpilot/panda/board/obj/*.*
-  
   sed -i -e 's/\r$//' /data/openpilot/panda/board/pedal/*.h, *.c
   sed -i -e 's/\r$//' /data/openpilot/panda/board/safety/*.*
   sed -i -e 's/\r$//' /data/openpilot/panda/board/stm32fx/*.*
   sed -i -e 's/\r$//' /data/openpilot/panda/board/stm32h7/*.*
-
   sed -i -e 's/\r$//' /data/openpilot/panda/board/tests/*.*
   sed -i -e 's/\r$//' /data/openpilot/panda/certs/*.*
   sed -i -e 's/\r$//' /data/openpilot/panda/crypto/*.*
   sed -i -e 's/\r$//' /data/openpilot/panda/python/*.*
-
+  sed -i -e 's/\r$//' /data/openpilot/t.sh
   chmod 700 /data/openpilot/t.sh
   chmod 744 /system/media/bootanimation.zip
   chmod 700 /data/openpilot/selfdrive/ui/qt/spinner
@@ -191,17 +189,19 @@ function tici_init {
   sudo su -c 'echo "performance" > /sys/class/devfreq/soc:qcom,memlat-cpu0/governor'
   sudo su -c 'echo "performance" > /sys/class/devfreq/soc:qcom,memlat-cpu4/governor'
   nmcli connection modify --temporary lte gsm.auto-config yes
+  nmcli connection modify --temporary lte gsm.home-only yes
 
   # set success flag for current boot slot
   sudo abctl --set_success
 
   # Check if AGNOS update is required
   if [ $(< /VERSION) != "$AGNOS_VERSION" ]; then
+    AGNOS_PY="$DIR/selfdrive/hardware/tici/agnos.py"
     MANIFEST="$DIR/selfdrive/hardware/tici/agnos.json"
-    $DIR/selfdrive/hardware/tici/agnos.py --swap $MANIFEST
-
-    sleep 1
-    sudo reboot
+    if $AGNOS_PY --verify $MANIFEST; then
+      sudo reboot
+    fi
+    $DIR/selfdrive/hardware/tici/updater $AGNOS_PY $MANIFEST
   fi
 }
 

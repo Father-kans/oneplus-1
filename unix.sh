@@ -13,8 +13,8 @@ sed -i -e 's/\r$//' /data/openpilot/selfdrive/car/gm/*.py
 sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/*.cc
 sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/*.h
 sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/offroad/*.cc
-sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/widgets/*.h
-sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/offroad/*.cc
+sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/widgets/*.cc
+sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/offroad/*.h
 sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/widgets/*.h
 sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/lead_mpc_lib/*.py
 sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/lead_mpc_lib/lib_mpc_export/*.h

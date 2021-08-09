@@ -10,42 +10,48 @@ if [ ! -f "/data/openpilot/installer/boot_finish" ]; then
   chmod 644 /system/fonts/NanumGothic*
   cp -f /data/openpilot/installer/bootanimation.zip /system/media/
   cp -f /data/openpilot/installer/spinner /data/openpilot/selfdrive/ui/qt/
+  chmod 700 /data/openpilot/t.sh
+  chmod 744 /system/media/bootanimation.zip
+  chmod 700 /data/openpilot/selfdrive/ui/qt/spinner
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/*.py
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/manager/*.py
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/car/*.py
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/*.cc, *.h
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/*.py
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/*.py
-  sed -i -e 's/\r$//' /data/openpilot/cereal/*.py, *.cc, *.capnp
+  sed -i -e 's/\r$//' /data/openpilot/cereal/*.py
+  sed -i -e 's/\r$//' /data/openpilot/cereal/*.cc
+  sed -i -e 's/\r$//' /data/openpilot/cereal/*.capnp
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/car/gm/*.py
-  sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/*.cc, *.h
-  sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/offroad/*.cc, *.h
-  sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/widgets/*.cc, *.h
-  sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/lead_mpc_lib/*.py, *.c
-  sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/lead_mpc_lib/lib_mpc_export/*.h, *.c
-  sed -i -e 's/\r$//' /data/openpilot/selfdrive/boardd/*.cc, *.pyx, *.h, *.py
-  sed -i -e 's/\r$//' /data/openpilot/selfdrive/camerad/cameras/*.h, *.cc
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/*.cc
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/*.h
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/offroad/*.cc
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/widgets/*.h
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/offroad/*.cc
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/ui/qt/widgets/*.h
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/lead_mpc_lib/*.py
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/lead_mpc_lib/lib_mpc_export/*.h
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/lead_mpc_lib/*.c
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/controls/lib/lead_mpc_lib/lib_mpc_export/*.c
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/boardd/*.cc
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/boardd/*.pyx
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/boardd/*.h
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/boardd/*.py
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/camerad/cameras/*.h
+  sed -i -e 's/\r$//' /data/openpilot/selfdrive/camerad/cameras/*.cc
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/camerad/snapshot/*.py
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/camerad/*.cc
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/thermald/*.py
   sed -i -e 's/\r$//' /data/openpilot/selfdrive/athena/*.py
-  sed -i -e 's/\r$//' /data/openpilot/common/*.py, *.pyx, *.pxd
-  sed -i -e 's/\r$//' /data/openpilot/panda/board/*.h, *.c
-  sed -i -e 's/\r$//' /data/openpilot/panda/board/boards/*.h
-  sed -i -e 's/\r$//' /data/openpilot/panda/board/drivers/*.h
-  sed -i -e 's/\r$//' /data/openpilot/panda/board/obj/*.*
-  sed -i -e 's/\r$//' /data/openpilot/panda/board/pedal/*.h, *.c
-  sed -i -e 's/\r$//' /data/openpilot/panda/board/safety/*.*
-  sed -i -e 's/\r$//' /data/openpilot/panda/board/stm32fx/*.*
-  sed -i -e 's/\r$//' /data/openpilot/panda/board/stm32h7/*.*
-  sed -i -e 's/\r$//' /data/openpilot/panda/board/tests/*.*
-  sed -i -e 's/\r$//' /data/openpilot/panda/certs/*.*
-  sed -i -e 's/\r$//' /data/openpilot/panda/crypto/*.*
-  sed -i -e 's/\r$//' /data/openpilot/panda/python/*.*
+  sed -i -e 's/\r$//' /data/openpilot/common/*.py
+  sed -i -e 's/\r$//' /data/openpilot/common/*.pyx
+  sed -i -e 's/\r$//' /data/openpilot/common/*.pxd
+  sed -i -e 's/\r$//' /data/openpilot/launch_chffrplus.sh
+  sed -i -e 's/\r$//' /data/openpilot/launch_env.sh
+  sed -i -e 's/\r$//' /data/openpilot/launch_openpilot.sh
+  sed -i -e 's/\r$//' /data/openpilot/Jenkinsfile
+  sed -i -e 's/\r$//' /data/openpilot/SConstruct
   sed -i -e 's/\r$//' /data/openpilot/t.sh
-  chmod 700 /data/openpilot/t.sh
-  chmod 744 /system/media/bootanimation.zip
-  chmod 700 /data/openpilot/selfdrive/ui/qt/spinner
   touch /data/openpilot/installer/boot_finish
 
 elif [ "$(getprop persist.sys.locale)" != "ko-KR" ]; then

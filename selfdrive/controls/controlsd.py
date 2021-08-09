@@ -156,9 +156,6 @@ class Controls:
     self.v_cruise_kph_limit = 0
     self.curve_speed_ms = 255.
 
-    self.left_lane_visible = False
-    self.right_lane_visible = False
-
     # TODO: no longer necessary, aside from process replay
     self.sm['liveParameters'].valid = True
 
@@ -256,13 +253,13 @@ class Controls:
       self.events.add(EventName.radarFault)
     elif not self.sm.valid["pandaState"]:
       self.events.add(EventName.usbError)
-    elif not self.sm.all_alive_and_valid():
-      self.events.add(EventName.commIssue)
-      if not self.logged_comm_issue:
-        invalid = [s for s, valid in self.sm.valid.items() if not valid]
-        not_alive = [s for s, alive in self.sm.alive.items() if not alive]
-        cloudlog.event("commIssue", invalid=invalid, not_alive=not_alive)
-        self.logged_comm_issue = True
+#    elif not self.sm.all_alive_and_valid():
+#      self.events.add(EventName.commIssue)
+#      if not self.logged_comm_issue:
+#        invalid = [s for s, valid in self.sm.valid.items() if not valid]
+#        not_alive = [s for s, alive in self.sm.alive.items() if not alive]
+#        cloudlog.event("commIssue", invalid=invalid, not_alive=not_alive)
+#        self.logged_comm_issue = True
     else:
       self.logged_comm_issue = False
 
@@ -595,13 +592,8 @@ class Controls:
 
     right_lane_visible = self.sm['lateralPlan'].rProb > 0.5
     left_lane_visible = self.sm['lateralPlan'].lProb > 0.5
-
-    if self.sm.frame % 100 == 0:
-      self.right_lane_visible = right_lane_visible
-      self.left_lane_visible = left_lane_visible
-
-    CC.hudControl.rightLaneVisible = self.right_lane_visible
-    CC.hudControl.leftLaneVisible = self.left_lane_visible
+    CC.hudControl.rightLaneVisible = bool(right_lane_visible)
+    CC.hudControl.leftLaneVisible = bool(left_lane_visible)
 
     recent_blinker = (self.sm.frame - self.last_blinker_frame) * DT_CTRL < 5.0  # 5s blinker cooldown
     ldw_allowed = self.is_ldw_enabled and CS.vEgo > LDW_MIN_SPEED and not recent_blinker \

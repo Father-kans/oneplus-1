@@ -9,9 +9,11 @@ from threading import Thread
 from cereal import messaging
 from common.params import Params
 from common.numpy_fast import interp
+from selfdrive.kegman_kans_conf import kegman_kans_conf
 
+kegman_kans = kegman_kans_conf()
 
-CAMERA_SPEED_FACTOR = 1.05
+CAMERA_SPEED_FACTOR = float(kegman_kans.conf['CAMERA_SPEED_FACTOR'])
 
 class Port:
   BROADCAST_PORT = 2899
@@ -281,7 +283,7 @@ class RoadSpeedLimiter:
           else:
             first_started = False
 
-          base = self.start_dist / 1.2 * 0.65
+          base = self.start_dist / 1.2 * 0.6
 
           td = self.start_dist - base
           d = cam_limit_speed_left_dist - base

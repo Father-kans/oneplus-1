@@ -46,9 +46,9 @@ class kegman_kans_conf():
 
       if "tuneGernby" not in self.config:
         self.config.update({"tuneGernby":"1"})
-        self.config.update({"Kp":"0.275"})
-        self.config.update({"Ki":"0.021"})
-        self.config.update({"Kd":"0.00022"})
+        self.config.update({"Kp":"0.165"})
+        self.config.update({"Ki":"0.0013"})
+        self.config.update({"Kd":"0.00017"})
         self.element_updated = True
 
       if "liveParams" not in self.config:
@@ -130,7 +130,7 @@ class kegman_kans_conf():
         self.element_updated = True
 
       if "steerLimitTimer" not in self.config:
-        self.config.update({"steerLimitTimer":"4.0"})
+        self.config.update({"steerLimitTimer":"5.0"})
         self.element_updated = True
 
       if "CruiseDelta" not in self.config:
@@ -149,6 +149,10 @@ class kegman_kans_conf():
         self.config.update({"accelerationMode":"0"})
         self.element_updated = True
 
+      if "CAMERA_SPEED_FACTOR" not in self.config:
+        self.config.update({"CAMERA_SPEED_FACTOR":"1.1"})
+        self.element_updated = True
+
       if self.element_updated:
         print("updated")
         self.write_config(self.config)
@@ -156,8 +160,8 @@ class kegman_kans_conf():
     else:  # add "accelerationmode":"0" like as bellow, 1st word on the 2nd line
       self.config = {"lastTrMode":"2", "battChargeMin":"60", "battChargeMax":"75", "wheelTouchSeconds":"18000", \
                      "accelerationMode":"0", "battPercOff":"80", "carVoltageMinEonShutdown":"12000", \
-                     "brakeStoppingTarget":"0.65", "tuneGernby":"1", "AutoHold":"1", "steerLimitTimer":"4.0", \
-                     "Kp":"0.275", "Ki":"0.021", "Kd":"0.00022", "Kf":"0.00006", "liveParams":"1", "deadzone":"0.0", \
+                     "brakeStoppingTarget":"0.65", "tuneGernby":"1", "AutoHold":"1", "steerLimitTimer":"5.0", \
+                     "Kp":"0.165", "Ki":"0.0013", "Kd":"0.00017", "Kf":"0.00004", "liveParams":"1", "deadzone":"0.0", \
                      "1barBP0":"-0.3", "2barBP0":"-0.2", "3barBP0":"-0.1", \
                      "1barBP1":"1.85", "2barBP1":"2.25", "3barBP1":"3.2", \
                      "steerRatio":"15.07", "steerRateCost":"0.66", "steerActuatorDelay":"0.075", \
@@ -166,7 +170,7 @@ class kegman_kans_conf():
                      "1barHwy":"0.4", "2barHwy":"0.3", "3barHwy":"0.2", "nTune":"1", "useLiveSteerRatio":"1", \
                      "sR_boost":"5.0", "sR_BP0":"1.44", "sR_BP1":"25", "sR_time":"7.0", \
                      "ALCnudgeLess":"1", "ALCminSpeed":"8.6", "ALCtimer":"0.5", "CruiseDelta":"5", \
-                     "CruiseEnableMin":"10", "epsModded": "0", "slowOnCurves":"1"}
+                     "CruiseEnableMin":"10", "epsModded": "0", "slowOnCurves":"1", "CAMERA_SPEED_FACTOR":"1.1"}
 
 
       self.write_config(self.config)

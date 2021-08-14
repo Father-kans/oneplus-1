@@ -18,7 +18,6 @@ import numpy as np
 from numpy.linalg import solve
 
 from cereal import car
-from common.params import Params
 
 class VehicleModel:
   def __init__(self, CP: car.CarParams):

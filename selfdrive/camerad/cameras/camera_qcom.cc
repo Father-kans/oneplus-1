@@ -1616,7 +1616,6 @@ void cameras_run(MultiCameraState *s) {
             .gain = c->cur_gain_frac,
             .measured_grey_fraction = c->measured_grey_fraction,
             .target_grey_fraction = c->target_grey_fraction,
-            .high_conversion_gain = false,
         };
         c->frame_metadata_idx = (c->frame_metadata_idx + 1) % METADATA_BUF_COUNT;
 

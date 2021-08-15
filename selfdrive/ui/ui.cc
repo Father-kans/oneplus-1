@@ -153,13 +153,6 @@ static void update_state(UIState *s) {
     scene.car_state = sm["carState"].getCarState();
     s->scene.engineRPM = scene.car_state.getEngineRPM();
   }
-  if (sm.updated("radarState") && s->vg) {
-    std::optional<cereal::ModelDataV2::XYZTData::Reader> line;
-    if (sm.rcv_frame("modelV2") > 0) {
-      line = sm["modelV2"].getModelV2().getPosition();
-    }
-    update_leads(s, sm["radarState"].getRadarState(), line);
-  }
   if (sm.updated("modelV2") && s->vg) {
     auto model = sm["modelV2"].getModelV2();
     update_model(s, model);
@@ -319,6 +312,14 @@ static void update_extras(UIState *s)
     scene.live_params = sm["liveParameters"].getLiveParameters();
 
 
+   if (sm.updated("radarState") && s->vg) {
+    std::optional<cereal::ModelDataV2::XYZTData::Reader> line;
+    if (sm.rcv_frame("modelV2") > 0) {
+      line = sm["modelV2"].getModelV2().getPosition();
+    }
+    update_leads_radar(s, sm["radarState"].getRadarState(), line);
+  }
+
    if(s->awake)
    {
         int touch_x = -1, touch_y = -1;
@@ -443,3 +444,4 @@ void Device::updateWakefulness(const UIState &s) {
 
   setAwake(awake_timeout, should_wake);
 }
+

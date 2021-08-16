@@ -9,6 +9,7 @@ from threading import Thread
 from cereal import messaging
 from common.params import Params
 from common.numpy_fast import interp
+from common.realtime import sec_since_boot
 from selfdrive.kegman_kans_conf import kegman_kans_conf
 
 kegman_kans = kegman_kans_conf()

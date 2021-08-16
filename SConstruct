@@ -121,6 +121,7 @@ else:
       "#selfdrive/common",
       "/usr/lib",
       "/usr/local/lib",
+    ]
     cflags = ["-DXNX", "-march=armv8.2-a"]
     cxxflags = ["-DXNX", "-march=armv8.2-a"]
     rpath += ["/usr/local/lib"]

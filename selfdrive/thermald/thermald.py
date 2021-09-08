@@ -237,15 +237,6 @@ def thermald_thread():
           pass
     cloudlog.event("CPR", data=cpr_data)
 
-    # modem logging
-    try:
-      binpath = os.path.join(BASEDIR, "selfdrive/hardware/eon/rat")
-      out = subprocess.check_output([binpath], encoding='utf8').strip()
-      dat = json.loads(out.splitlines()[1])
-      cloudlog.event("NV data", data=dat)
-    except Exception:
-      pass
-
   while 1:
     pandaState = messaging.recv_sock(pandaState_sock, wait=True)
     msg = read_thermal(thermal_config)
@@ -295,6 +286,13 @@ def thermald_thread():
         network_strength = HARDWARE.get_network_strength(network_type)
         network_info = HARDWARE.get_network_info()  # pylint: disable=assignment-from-none
         wifiIpAddress = HARDWARE.get_ip_address()
+
+        # Log modem version once
+        if modem_version is None:
+          modem_version = HARDWARE.get_modem_version()  # pylint: disable=assignment-from-none
+          if modem_version is not None:
+            cloudlog.warning(f"Modem version: {modem_version}")
+
         if TICI and (network_info.get('state', None) == "REGISTERED"):
           registered_count += 1
         else:
@@ -310,7 +308,7 @@ def thermald_thread():
 
     msg.deviceState.freeSpacePercent = get_available_percent(default=100.0)
     msg.deviceState.memoryUsagePercent = int(round(psutil.virtual_memory().percent))
-    msg.deviceState.cpuUsagePercent = int(round(psutil.cpu_percent()))
+    msg.deviceState.cpuUsagePercent = [int(round(n)) for n in psutil.cpu_percent(percpu=True)]
     msg.deviceState.gpuUsagePercent = int(round(HARDWARE.get_gpu_usage_percent()))
     msg.deviceState.networkType = network_type
     msg.deviceState.networkStrength = network_strength
@@ -426,7 +424,7 @@ def thermald_thread():
     set_offroad_alert_if_changed("Offroad_TemperatureTooHigh", (not startup_conditions["device_temp_good"]))
     startup_conditions["hardware_supported"] = pandaState is not None
     set_offroad_alert_if_changed("Offroad_HardwareUnsupported", pandaState is not None and not startup_conditions["hardware_supported"])
-	
+
     if TICI:
       set_offroad_alert_if_changed("Offroad_NvmeMissing", (not Path("/data/media").is_mount()))
 
@@ -436,9 +434,6 @@ def thermald_thread():
       params.put_bool("IsOnroad", should_start)
       params.put_bool("IsOffroad", not should_start)
       HARDWARE.set_power_save(not should_start)
-      if TICI and not params.get_bool("EnableLteOnroad"):
-        fxn = "off" if should_start else "on"
-        os.system(f"nmcli radio wwan {fxn}")
 
     if should_start:
       off_ts = None

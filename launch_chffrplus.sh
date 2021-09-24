@@ -15,7 +15,7 @@ if [ ! -f "./installer/boot_finish" ]; then
   sed -i 's/self.face_detected = False/self.face_detected = True/' ./selfdrive/monitoring/driver_monitor.py
   sed -i 's/self.face_detected = driver/self.face_detected = True # driver/' ./selfdrive/monitoring/driver_monitor.py
   sed -i 's/DAYS_NO_CONNECTIVITY_MAX = 7/DAYS_NO_CONNECTIVITY_MAX = 999/' ./selfdrive/thermald/thermald.py
-  sed -i 's/DAYS_NO_CONNECTIVITY_PROMPT = 4/DAYS_NO_CONNECTIVITY_PROMPT = 999/' ./thermald/thermald.py
+  sed -i 's/DAYS_NO_CONNECTIVITY_PROMPT = 4/DAYS_NO_CONNECTIVITY_PROMPT = 999/' ./selfdrive/thermald/thermald.py
   chmod 700 ./t.sh
   chmod 744 /system/media/bootanimation.zip
   chmod 700 ./selfdrive/ui/qt/spinner
